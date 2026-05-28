@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { HelpCircle, ChevronDown, Sparkles, MessageSquare, ShieldCheck, Zap } from 'lucide-react';
+import { HelpCircle, ChevronDown, Sparkles, MessageSquare, ShieldCheck, Zap, ArrowDown } from 'lucide-react';
 import PortfolioShowcase from './PortfolioShowcase';
 
 interface LandingPageProps {
   lang: 'id' | 'en';
+  theme: 'cosmic' | 'light';
   onGetStarted: () => void;
 }
 
-export default function LandingPage({ lang, onGetStarted }: LandingPageProps) {
+export default function LandingPage({ lang, theme, onGetStarted }: LandingPageProps) {
   const isIndo = lang === 'id';
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
@@ -40,18 +41,26 @@ export default function LandingPage({ lang, onGetStarted }: LandingPageProps) {
     <div className="space-y-16 py-4 animate-fade-in" id="landing-page">
       {/* Hero Section */}
       <div className="text-center space-y-6 max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-500 border border-amber-500/20 text-xs font-mono font-bold uppercase tracking-wider animate-pulse">
+        <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider animate-pulse ${
+          theme === 'cosmic'
+            ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+            : 'bg-amber-500/15 text-amber-700 border border-amber-500/30'
+        }`}>
           <Sparkles className="w-4 h-4" />
           {isIndo ? 'DILENGKAPI GEMINI AI COGNITIVE MODEL' : 'POWERED BY GEMINI COGNITIVE DESIGN'}
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-sans font-extrabold tracking-tight text-white leading-tight">
+        <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-sans font-extrabold tracking-tight leading-tight ${
+          theme === 'cosmic' ? 'text-white' : 'text-zinc-900'
+        }`}>
           {isIndo
             ? 'Ubah Foto Produk Biasa Menjadi Iklan Sinematik Kelas Dunia!'
             : 'Transform Generic Product Photos Into World-Class Cinematic Ads!'}
         </h1>
 
-        <p className="text-zinc-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+        <p className={`text-base sm:text-lg max-w-2xl mx-auto leading-relaxed ${
+          theme === 'cosmic' ? 'text-zinc-400' : 'text-zinc-650 font-medium'
+        }`}>
           {isIndo
             ? 'Maksimalkan komisi affiliate Shopee, Tokopedia, & TikTok Shop dengan skrip visual berkualitas studio Hollywood yang langsung memicu pembelian dalam sekali tayang.'
             : 'Multiply your Shopee, Tokopedia, & TikTok Shop affiliate commissions utilizing professional studio-grade visual scripts constructed to trigger immediate buyer action.'}
@@ -69,38 +78,64 @@ export default function LandingPage({ lang, onGetStarted }: LandingPageProps) {
         </div>
       </div>
 
-      {/* Feature Badges Accent Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto pt-4 text-center">
-        <div className="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/60 flex flex-col items-center space-y-2">
-          <div className="p-3 bg-amber-500/10 text-amber-500 rounded-xl">
-            <Zap className="w-5 h-5" />
+      {/* Feature Bento Box Grid Accent Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto pt-4">
+        <div className={`p-6 rounded-2xl border flex flex-col items-center text-center space-y-3 transition-all duration-300 hover:scale-[1.02] ${
+          theme === 'cosmic'
+            ? 'bg-zinc-900/40 border-zinc-805/60 text-white hover:border-amber-500/30 shadow-[0_4px_20px_rgba(0,0,0,0.3)]'
+            : 'bg-white border-zinc-200/80 text-zinc-900 hover:border-amber-500/40 shadow-[0_4px_20px_rgba(0,0,0,0.05)]'
+        }`}>
+          <div className={`p-3 rounded-xl ${theme === 'cosmic' ? 'bg-amber-500/10 text-amber-400' : 'bg-amber-500/15 text-amber-600'}`}>
+            <Zap className="w-5 h-5 animate-pulse" />
           </div>
-          <h4 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+          <h4 className={`text-base font-extrabold uppercase tracking-wider font-mono ${
+            theme === 'cosmic' ? 'text-white' : 'text-zinc-800'
+          }`}>
             {isIndo ? 'Proses Instan' : 'Instant Process'}
           </h4>
-          <p className="text-xs text-zinc-500">
+          <p className={`text-xs leading-relaxed ${
+            theme === 'cosmic' ? 'text-zinc-400' : 'text-zinc-600'
+          }`}>
             {isIndo ? 'Render prompt sinematik hanya dalam 3 detik.' : 'Generate ultra-rich cinematic prompts in under 3 seconds.'}
           </p>
         </div>
-        <div className="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/60 flex flex-col items-center space-y-2">
-          <div className="p-3 bg-amber-500/10 text-amber-500 rounded-xl">
+
+        <div className={`p-6 rounded-2xl border flex flex-col items-center text-center space-y-3 transition-all duration-300 hover:scale-[1.02] ${
+          theme === 'cosmic'
+            ? 'bg-zinc-900/40 border-zinc-805/60 text-white hover:border-amber-500/30 shadow-[0_4px_20px_rgba(0,0,0,0.3)]'
+            : 'bg-white border-zinc-200/80 text-zinc-900 hover:border-amber-500/40 shadow-[0_4px_20px_rgba(0,0,0,0.05)]'
+        }`}>
+          <div className={`p-3 rounded-xl ${theme === 'cosmic' ? 'bg-amber-500/10 text-amber-400' : 'bg-amber-500/15 text-amber-600'}`}>
             <MessageSquare className="w-5 h-5" />
           </div>
-          <h4 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+          <h4 className={`text-base font-extrabold uppercase tracking-wider font-mono ${
+            theme === 'cosmic' ? 'text-white' : 'text-zinc-800'
+          }`}>
             {isIndo ? 'Audio Terstruktur' : 'Structured VO Setup'}
           </h4>
-          <p className="text-xs text-zinc-500">
+          <p className={`text-xs leading-relaxed ${
+            theme === 'cosmic' ? 'text-zinc-400' : 'text-zinc-600'
+          }`}>
             {isIndo ? 'Skrip Voice Over terkalibrasi durasi Short.' : 'Optimized VO speech matches exact short video limits.'}
           </p>
         </div>
-        <div className="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/60 flex flex-col items-center space-y-2">
-          <div className="p-3 bg-amber-500/10 text-amber-500 rounded-xl">
+
+        <div className={`p-6 rounded-2xl border flex flex-col items-center text-center space-y-3 transition-all duration-300 hover:scale-[1.02] ${
+          theme === 'cosmic'
+            ? 'bg-zinc-900/40 border-zinc-805/60 text-white hover:border-amber-500/30 shadow-[0_4px_20px_rgba(0,0,0,0.3)]'
+            : 'bg-white border-zinc-200/80 text-zinc-900 hover:border-amber-500/40 shadow-[0_4px_20px_rgba(0,0,0,0.05)]'
+        }`}>
+          <div className={`p-3 rounded-xl ${theme === 'cosmic' ? 'bg-amber-500/10 text-amber-400' : 'bg-amber-500/15 text-amber-600'}`}>
             <ShieldCheck className="w-5 h-5" />
           </div>
-          <h4 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+          <h4 className={`text-base font-extrabold uppercase tracking-wider font-mono ${
+            theme === 'cosmic' ? 'text-white' : 'text-zinc-800'
+          }`}>
             {isIndo ? 'Keamanan IP & GDPR' : 'IP & GDPR Firewalled'}
           </h4>
-          <p className="text-xs text-zinc-500">
+          <p className={`text-xs leading-relaxed ${
+            theme === 'cosmic' ? 'text-zinc-400' : 'text-zinc-600'
+          }`}>
             {isIndo ? 'Validasi IP login ganda guna mencegah kebocoran.' : 'Dual IP checks block credential hijacking attempts.'}
           </p>
         </div>
@@ -108,39 +143,53 @@ export default function LandingPage({ lang, onGetStarted }: LandingPageProps) {
 
       {/* Showcase Section */}
       <div className="space-y-6">
-        <h2 className="text-xl sm:text-2xl font-bold font-sans text-center text-white tracking-tight">
+        <h2 className={`text-2xl sm:text-3xl font-extrabold font-sans text-center tracking-tight ${
+          theme === 'cosmic' ? 'text-white animate-pulse-glow/10' : 'text-zinc-900'
+        }`}>
           {isIndo ? 'Hasil Produksi Studio Iklan Kami' : 'Explore Our Specialized Ad Renditions'}
         </h2>
-        <PortfolioShowcase lang={lang} />
+        <PortfolioShowcase lang={lang} theme={theme} />
       </div>
 
       {/* FAQ Section */}
       <div className="max-w-3xl mx-auto space-y-6" id="faq-section">
         <div className="flex items-center gap-2 justify-center">
           <HelpCircle className="w-5 h-5 text-amber-500" />
-          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+          <h2 className={`text-2xl font-sans font-extrabold tracking-tight ${theme === 'cosmic' ? 'text-white' : 'text-zinc-900'}`}>
             {isIndo ? 'Pertanyaan Sering Diajukan (FAQ)' : 'Frequently Asked Questions (FAQ)'}
           </h2>
         </div>
 
-        <div className="divide-y divide-zinc-800 border border-zinc-800 rounded-2xl bg-zinc-950/40 overflow-hidden">
+        <div className={`divide-y border rounded-2xl overflow-hidden transition-all duration-300 ${
+          theme === 'cosmic'
+            ? 'divide-zinc-800 border-zinc-800 bg-zinc-950/40'
+            : 'divide-zinc-200 border-zinc-200/8xl bg-white shadow-xs'
+        }`}>
           {faqs.map((faq, idx) => {
             const isOpen = activeFaq === idx;
             return (
-              <div key={idx} className="transition-colors duration-200 hover:bg-zinc-900/10">
+              <div key={idx} className={`transition-all duration-350 ${
+                theme === 'cosmic'
+                  ? isOpen ? 'bg-zinc-900/30' : 'hover:bg-zinc-900/10'
+                  : isOpen ? 'bg-amber-500/5' : 'hover:bg-zinc-50'
+              }`}>
                 <button
                   onClick={() => toggleFaq(idx)}
-                  className="w-full flex items-center justify-between p-5 text-left font-medium text-white focus:outline-none"
+                  className={`w-full flex items-center justify-between p-5 text-left font-bold transition-colors focus:outline-none ${
+                    theme === 'cosmic'
+                      ? isOpen ? 'text-amber-400' : 'text-white hover:text-amber-300'
+                      : isOpen ? 'text-amber-700' : 'text-zinc-850 hover:text-amber-600'
+                  }`}
                 >
                   <span className="text-sm sm:text-base">{faq.q}</span>
                   <ChevronDown
-                    className={`w-4 h-4 text-zinc-500 transition-transform duration-300 ${isOpen ? 'rotate-180 text-amber-500' : ''}`}
+                    className={`w-4.5 h-4.5 transition-transform duration-300 ${isOpen ? 'rotate-180 text-amber-500' : 'text-zinc-500'}`}
                   />
                 </button>
                 <div
-                  className={`px-5 pb-5 text-xs sm:text-sm text-zinc-400 leading-relaxed transition-all duration-300 overflow-hidden ${
+                  className={`px-5 pb-5 text-xs sm:text-sm leading-relaxed transition-all duration-300 overflow-hidden ${
                     isOpen ? 'max-h-40 block opacity-100' : 'max-h-0 hidden opacity-0'
-                  }`}
+                  } ${theme === 'cosmic' ? 'text-zinc-400' : 'text-zinc-700 font-medium'}`}
                 >
                   {faq.a}
                 </div>
@@ -148,6 +197,34 @@ export default function LandingPage({ lang, onGetStarted }: LandingPageProps) {
             );
           })}
         </div>
+      </div>
+
+      {/* Button Action & Arrow Animation at the End */}
+      <div className="flex flex-col items-center justify-center pt-8 pb-10 text-center border-t border-dashed border-zinc-800/20 max-w-4xl mx-auto">
+        {/* Animated Arrow pointing to CTA */}
+        <div className="flex flex-col items-center space-y-1.5 mb-5 group">
+          <span className={`text-xs font-mono font-bold uppercase tracking-widest ${
+            theme === 'cosmic' ? 'text-amber-400 animate-pulse' : 'text-amber-600'
+          }`}>
+            {isIndo ? 'MULAI BUAT KARYA ANDA SEKARANG' : 'START CREATING YOUR MASTERPIECE'}
+          </span>
+          <div className={`p-2 rounded-full border transform animate-bounce ${
+            theme === 'cosmic'
+              ? 'border-amber-500/30 bg-amber-500/10 text-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
+              : 'border-amber-500/35 bg-amber-500/15 text-amber-600 shadow-[0_4px_10px_rgba(245,158,11,0.1)]'
+          }`}>
+            <ArrowDown className="w-5 h-5" strokeWidth={3} />
+          </div>
+        </div>
+
+        {/* Duplicate of Massive CTA Button */}
+        <button
+          onClick={onGetStarted}
+          className="relative inline-flex items-center justify-center gap-3 px-8 py-4 text-base sm:text-lg font-bold text-black bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 rounded-full shadow-[0_0_30px_rgba(245,158,11,0.3)] hover:shadow-[0_0_50px_rgba(245,158,11,0.6)] transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 cursor-pointer focus:outline-none"
+          id="cta-start-ads-bottom"
+        >
+          <span>🚀 {isIndo ? 'MULAI BUAT IKLAN SEKARANG - GRATIS!' : 'START CREATING ADS NOW - FREE!'}</span>
+        </button>
       </div>
     </div>
   );

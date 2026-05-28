@@ -3,9 +3,10 @@ import { Camera, Image as ImageIcon, Film, Play, Eye } from 'lucide-react';
 
 interface PortfolioShowcaseProps {
   lang: 'id' | 'en';
+  theme: 'cosmic' | 'light';
 }
 
-export default function PortfolioShowcase({ lang }: PortfolioShowcaseProps) {
+export default function PortfolioShowcase({ lang, theme }: PortfolioShowcaseProps) {
   const isIndo = lang === 'id';
 
   const items = [
@@ -29,7 +30,7 @@ export default function PortfolioShowcase({ lang }: PortfolioShowcaseProps) {
       bgGradient: 'from-emerald-950 via-zinc-900 to-black',
       icon: Camera,
       borderColor: 'border-emerald-500/30',
-      textColor: 'text-emerald-400',
+      textColor: 'text-emerald-450',
     },
     {
       title: 'Style: Cinematic Hollywood',
@@ -40,7 +41,7 @@ export default function PortfolioShowcase({ lang }: PortfolioShowcaseProps) {
       bgGradient: 'from-violet-950 via-zinc-900 to-black',
       icon: Film,
       borderColor: 'border-violet-500/30',
-      textColor: 'text-violet-400',
+      textColor: 'text-violet-450',
     },
   ];
 
@@ -52,30 +53,48 @@ export default function PortfolioShowcase({ lang }: PortfolioShowcaseProps) {
           return (
             <div
               key={i}
-              className={`relative overflow-hidden rounded-2xl border ${item.borderColor} bg-gradient-to-b ${item.bgGradient} p-6 transition-all duration-300 hover:scale-[1.03] hover:border-white/20 hover:shadow-2xl hover:shadow-black/60 group`}
+              className={`relative overflow-hidden rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl group ${
+                theme === 'cosmic'
+                  ? `bg-gradient-to-b ${item.bgGradient} ${item.borderColor} hover:border-white/20 hover:shadow-black/60`
+                  : 'bg-white border-zinc-200/80 shadow-xs hover:border-amber-500/40 hover:shadow-zinc-300/30'
+              }`}
             >
               {/* Decorative light beam */}
               <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 blur-xl rounded-full group-hover:bg-white/10 transition-colors" />
 
-              <div className="flex justify-between items-start mb-4">
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-white/5 border border-white/10 ${item.textColor}`}>
+              <div className="flex justify-between items-start mb-4 p-6 pb-0">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold ${
+                  theme === 'cosmic'
+                    ? `bg-white/5 border border-white/10 ${item.textColor}`
+                    : 'bg-amber-500/10 border border-amber-500/20 text-amber-600'
+                }`}>
                   <Icon className="w-3.5 h-3.5" />
                   {item.tag}
                 </span>
-                <span className="text-white/30 text-xs font-mono">{`0${i + 1}`}</span>
+                <span className={`text-xs font-mono ${theme === 'cosmic' ? 'text-white/30' : 'text-zinc-400'}`}>{`0${i + 1}`}</span>
               </div>
 
-              <h4 className="text-lg font-sans font-medium text-white group-hover:text-amber-300 transition-colors duration-200">
-                {item.title}
-              </h4>
-              <p className="mt-2 text-sm text-zinc-400 leading-relaxed">
-                {item.desc}
-              </p>
+              <div className="px-6 pb-6">
+                <h4 className={`text-lg font-sans font-bold transition-colors duration-200 ${
+                  theme === 'cosmic'
+                    ? 'text-white group-hover:text-amber-300'
+                    : 'text-zinc-900 group-hover:text-amber-600'
+                }`}>
+                  {item.title}
+                </h4>
+                <p className={`mt-2 text-sm leading-relaxed ${theme === 'cosmic' ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                  {item.desc}
+                </p>
 
-              {/* Simulated render metrics */}
-              <div className="mt-5 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-zinc-500 font-mono">
-                <span>Resolution: 8K UHD</span>
-                <span>Render: 1.2s</span>
+                {/* Simulated render metrics */}
+                <div className={`mt-5 pt-4 border-t flex items-center justify-between text-xs font-mono ${
+                  theme === 'cosmic'
+                    ? 'border-white/5 text-zinc-500'
+                    : 'border-zinc-150 text-zinc-500'
+                }`}>
+                  <span>Resolution: 8K UHD</span>
+                  <span>Render: 1.2s</span>
+                </div>
               </div>
             </div>
           );
@@ -83,13 +102,17 @@ export default function PortfolioShowcase({ lang }: PortfolioShowcaseProps) {
       </div>
 
       {/* Video Short Preview */}
-      <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950/80 p-6 md:p-8">
+      <div className={`relative overflow-hidden rounded-3xl border transition-all p-6 md:p-8 ${
+        theme === 'cosmic' 
+          ? 'border-zinc-800 bg-[#07070F]' 
+          : 'border-zinc-200 bg-white shadow-xs'
+      }`}>
         <div className="absolute -top-12 -left-12 w-48 h-48 bg-amber-500/10 blur-3xl rounded-full" />
         <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-indigo-500/10 blur-3xl rounded-full" />
 
         <div className="relative flex flex-col lg:flex-row gap-8 items-center">
           <div className="w-full lg:w-2/5 flex-shrink-0">
-            <div className="relative aspect-[9/16] max-w-[240px] mx-auto rounded-2xl border-4 border-zinc-800 bg-gradient-to-t from-zinc-950 via-zinc-900 to-zinc-950 shadow-2xl overflow-hidden group">
+            <div className="relative aspect-[9/16] max-w-[240px] mx-auto rounded-2xl border-4 border-zinc-800 bg-[#06060F] shadow-2xl overflow-hidden group">
               {/* Simulated video playback content */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80 flex flex-col justify-between p-4">
                 <div className="flex justify-between items-center text-[10px] bg-black/40 backdrop-blur-md py-1 px-2 rounded-full border border-white/10 text-zinc-300">
@@ -126,22 +149,32 @@ export default function PortfolioShowcase({ lang }: PortfolioShowcaseProps) {
           </div>
 
           <div className="flex-1 text-left space-y-4">
-            <div className="inline-flex items-center gap-2 bg-amber-500/10 text-amber-400 py-1 px-3 rounded-full text-xs font-mono">
+            <div className={`inline-flex items-center gap-2 py-1 px-3 rounded-full text-xs font-mono ${
+              theme === 'cosmic'
+                ? 'bg-amber-500/10 text-amber-400'
+                : 'bg-amber-500/15 text-amber-700 font-bold'
+            }`}>
               <Eye className="w-3.5 h-3.5" />
               {isIndo ? 'Simulasi Transisi Video Short' : 'Simulated Short-Video Transitions'}
             </div>
-            <h3 className="text-2xl font-sans font-bold text-white tracking-tight">
+            <h3 className={`text-2xl font-sans font-extrabold tracking-tight ${
+              theme === 'cosmic' ? 'text-white' : 'text-zinc-900'
+            }`}>
               {isIndo
                 ? 'Skenario Video Instan 10 Detik Berdaya Konversi Tinggi'
                 : '10-Second High-Conversion Micro-Video Scripts'}
             </h3>
-            <p className="text-zinc-400 text-sm leading-relaxed">
+            <p className={`text-sm leading-relaxed ${
+              theme === 'cosmic' ? 'text-zinc-400' : 'text-zinc-650 font-medium'
+            }`}>
               {isIndo
                 ? 'Tidak hanya memikirkan script teks saja, AI menyusun manual dinamika transisi visual per adegan. Dapatkan instruksi sudut kamera ("camera dolly zoom", "high motion panning"), sound effect yang tepat, beserta ketukan rima Voice Over untuk menghasilkan short yang adiktif di algoritma TikTok & Reels.'
                 : 'Beyond textual narrative, our AI maps exact camera mechanics for every frame. Get real directions like dolly zooms, visual pans, matched SFX patterns, and precise VO intonation pacing designed to crack the code on TikTok & Shorts algorithms.'}
             </p>
 
-            <div className="grid grid-cols-2 gap-4 pt-2 text-xs font-mono text-zinc-400">
+            <div className={`grid grid-cols-2 gap-4 pt-2 text-xs font-mono ${
+              theme === 'cosmic' ? 'text-zinc-450' : 'text-zinc-600 font-bold'
+            }`}>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-amber-500" />
                 <span>Camera Direction Logs</span>
