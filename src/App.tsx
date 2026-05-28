@@ -302,6 +302,77 @@ export default function App() {
     });
   };
 
+  // Helper to generate template-based fallbacks for ultra-fast/offline use on the client
+  const generateClientFallbackPrompts = (
+    desc: string,
+    style: string,
+    angle: string,
+    voice: string,
+    intonation: string,
+    marketplace: string,
+    affiliateId: string,
+    isTruncated: boolean
+  ): GenerationResult => {
+    const stepsData = [
+      {
+        stage: 1,
+        stageName: "Adegan 1: The Viral Hook",
+        imagePrompt: `A dramatic, high-contrast visual of ${desc}, highlighting its unique texture in a ${style} aesthetic. Photographed from a steep ${angle} angle, featuring rich cinematic side-lighting, hyper-detailed surface details, and a misty, minimalist background studio setup.`,
+        caption: `🔥 JANGAN SKIP! Ini dia rahasia produk viral yang lagi dicari semua orang. Cek langsung keasliannya di bawah ini! 👇 #affiliate`,
+        affiliateLink: `https://link.${marketplace.toLowerCase().replace(/\s+/g, '')}.co.id/${affiliateId || "global_promo_99"}`,
+        videoPrompt: `Camera begins with an ultra-close-up macro rotation of ${desc}. Intense ${angle} sweeping motion, lighting shifting dramatically to create a sense of mystery and instant hook in the first 2 seconds.`,
+        voScript: "Setelah sekian lama mencari.. akhirnya aku ketemu barang ajaib ini! Dijamin bikin kalian geleng-geleng kepala karena se-bermanfaat itu!",
+        ttsSetting: `Voice: ${voice} (Intonasi: ${intonation}) | Speed: 1.1x`
+      },
+      {
+        stage: 2,
+        stageName: "Adegan 2: Contextual Build-up",
+        imagePrompt: `A lifestyle-infused shot depicting how ${desc} fits seamlessly into modern, aesthetic daily routines. ${style} design, using warm natural light from a window, captured in an elegant interior setting with ${angle} perspective to present cozy vibes.`,
+        caption: `Gak nyangka banget, benda sekecil ini bisa mengubah produktivitas harian berlipat ganda! Kuliah atau kerja jadi makin seru. ✨`,
+        affiliateLink: `https://link.${marketplace.toLowerCase().replace(/\s+/g, '')}.co.id/${affiliateId || "global_promo_99"}`,
+        videoPrompt: `Hand reaches out in slow-motion, showcasing the user-friendly design of ${desc}. Medium shot with a subtle ${angle} depth-of-field blur, warm color grading.`,
+        voScript: "Dulu sebelum pakai ini, rasanya hari-hariku ribet banget. Tapi setelah coba ini seminggu.. wah bener-bener game changer!",
+        ttsSetting: `Voice: ${voice} (Intonasi: ${intonation}) | Speed: 1.0x`
+      },
+      {
+        stage: 3,
+        stageName: "Adegan 3: Narrative Development",
+        imagePrompt: `An exploded-view or extreme macro details of ${desc} showcasing premium craftsmanship and exceptional build quality. Rendered in clean ${style} design, captured from a precise ${angle} point-of-view, high visual fidelity.`,
+        caption: `Bahan premium, kokoh, dan yang paling penting ramah di dompet. Simak fiturnya yang gokil ini! No abal-abal ya guys! ❤️`,
+        affiliateLink: `https://link.${marketplace.toLowerCase().replace(/\s+/g, '')}.co.id/${affiliateId || "global_promo_99"}`,
+        videoPrompt: `Quick cut montage: focus on detailed corners, clicking elements, or action points of ${desc}. Smooth slider track from a cool ${angle} vantage point.`,
+        voScript: "Lihat deh presisi materialnya, bener-bener solid! Kualitas bintang lima tapi harganya bersahabat banget untuk kantong affiliate.",
+        ttsSetting: `Voice: ${voice} (Intonasi: ${intonation}) | Speed: 1.05x`
+      },
+      {
+        stage: 4,
+        stageName: "Adegan 4: Climax & Hero Reveal",
+        imagePrompt: `The ultimate hero shot of ${desc} surrounded by abstract geometric neon lines or energetic element splashes, emphasizing action and peak performance. Striking ${style} look, shot from a heroic ${angle} angle, masterpiece level.`,
+        caption: `⚠️ WARNING: Bakal nyesel kalau kelewatan diskon gila-gilaan plus cashback hari ini. Klaim voucher gratis ongkir sekarang!`,
+        affiliateLink: `https://link.${marketplace.toLowerCase().replace(/\s+/g, '')}.co.id/${affiliateId || "global_promo_99"}`,
+        videoPrompt: `Dramatic slow-motion splash or neon glow reveal of ${desc}. Fast zoom out to classic ${angle} presentation, high energy sound effect cues.`,
+        voScript: "Tunggu apa lagi? Ini momen terbaik buat kamu upgrade peralatan harianmu dengan promo diskon gila-gilaan!",
+        ttsSetting: `Voice: ${voice} (Intonasi: ${intonation}) | Speed: 1.1x`
+      },
+      {
+        stage: 5,
+        stageName: "Adegan 5: Emotional Resolution",
+        imagePrompt: `A peaceful, clutter-free desk setting displaying ${desc} in its final perfect spot, glowing with a soft ambient aura. Minimalist layout with an empty text negative space. Professional ${style} styling, clean balanced frame.`,
+        caption: `Belinya gampang tinggal klik tautan di bio/deskripsi ini ya. Yuk samaan sama aku, mumpung stock masih ready! 🛒👇`,
+        affiliateLink: `https://link.${marketplace.toLowerCase().replace(/\s+/g, '')}.co.id/${affiliateId || "global_promo_99"}`,
+        videoPrompt: `Smooth crane-down and fade out, lingering on the elegant design of ${desc} with a subtle layout text space appearing on-screen.`,
+        voScript: "Klik sekarang di link bio atau tautan di bawah ini ya! Jangan sampai kehabisan kuota diskon flash-sale hari ini!",
+        ttsSetting: `Voice: ${voice} (Intonasi: ${intonation}) | Speed: 0.95x`
+      }
+    ];
+
+    return {
+      steps: isTruncated ? [stepsData[0]] : stepsData,
+      isTruncated,
+      apiWarning: 'Pre-rendered high-fidelity offline system'
+    };
+  };
+
   // Click handler to process and render prompt generated output
   const handleGeneratePrompt = async () => {
     // Validation
@@ -340,6 +411,20 @@ export default function App() {
     setIsGenerating(true);
     setAppState('result');
 
+    // Pre-seed local visual generated prompts immediately so tables are NEVER unrendered or blank
+    const localResult = generateClientFallbackPrompts(
+      inputs.productDescription,
+      inputs.style,
+      inputs.angle,
+      inputs.voVoice,
+      inputs.voIntonation,
+      inputs.marketplace,
+      inputs.affiliateId,
+      !!currentUser?.isGuest
+    );
+    setGenerationResult(localResult);
+    setEngineStatus('Local Studio Active');
+
     try {
       const res = await fetch('/api/generate-prompt', {
         method: 'POST',
@@ -358,22 +443,23 @@ export default function App() {
 
       if (res.ok) {
         const data = await res.json();
-        setGenerationResult(data);
+        if (data && Array.isArray(data.steps) && data.steps.length > 0) {
+          setGenerationResult(data);
 
-        if (data.apiWarning) {
-          setEngineStatus('Local Studio Active');
-        } else {
-          setEngineStatus('Gemini Online');
-        }
-
-        // Record guest attempt count
-        if (currentUser?.isGuest) {
-          setGuestAttempts((prev) => prev + 1);
+          if (data.apiWarning) {
+            setEngineStatus('Local Studio Active');
+          } else {
+            setEngineStatus('Gemini Online');
+          }
         }
       }
     } catch (err) {
-      console.error(err);
+      console.warn("API route error, maintaining local high-fidelity pre-rendered prompts.", err);
     } finally {
+      // Record guest attempt count
+      if (currentUser?.isGuest) {
+        setGuestAttempts((prev) => prev + 1);
+      }
       setIsGenerating(false);
     }
   };
@@ -416,27 +502,27 @@ export default function App() {
       )}
 
       {/* GLOBAL HEADER */}
-      <header className={`sticky top-0 z-40 backdrop-blur-md px-6 py-4 flex justify-between items-center max-w-7xl w-full mx-auto transition-all ${
+      <header className={`sticky top-0 z-40 backdrop-blur-md px-4 py-3 sm:px-6 sm:py-4 flex justify-between items-center max-w-7xl w-full mx-auto transition-all ${
         theme === 'cosmic' 
           ? 'bg-[#030307]/80 border-b border-amber-500/15' 
           : 'bg-white/80 border-b border-zinc-200 shadow-sm'
       }`} id="global-header">
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setAppState('welcome')}>
-          <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold italic text-sm shadow-lg transition-all ${
+        <div className="flex items-center gap-2 sm:gap-3 cursor-pointer" onClick={() => setAppState('welcome')}>
+          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center font-bold italic text-xs sm:text-sm shadow-lg transition-all ${
             theme === 'cosmic'
               ? 'bg-gradient-to-br from-amber-300 via-amber-500 to-amber-600 text-black shadow-amber-500/20'
               : 'bg-zinc-900 text-white shadow-zinc-900/10'
           }`}>A+</div>
           <div className="text-left font-sans">
-            <span className={`text-lg font-extrabold tracking-tighter uppercase block leading-none ${theme === 'cosmic' ? 'text-white' : 'text-zinc-955'}`}>
+            <span className={`text-sm sm:text-lg font-extrabold tracking-tighter uppercase block leading-none ${theme === 'cosmic' ? 'text-white' : 'text-zinc-955'}`}>
               AdsCreator <span className={theme === 'cosmic' ? 'text-amber-500' : 'text-zinc-650'}>Pro</span>
             </span>
-            <span className="text-[9px] font-mono tracking-widest text-zinc-500 uppercase leading-none block mt-0.5">AFFILIATE ENGINE</span>
+            <span className="text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-500 uppercase leading-none block mt-0.5">AFFILIATE ENGINE</span>
           </div>
         </div>
 
         {/* HUD Controls & Info Bar */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3">
           {currentUser && (
             <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono transition-colors ${
               theme === 'cosmic'
@@ -450,30 +536,10 @@ export default function App() {
             </div>
           )}
 
-          {/* Subtle Status Indicator */}
-          <div className={`flex items-center gap-2 border px-3 py-1.5 rounded-full text-[11px] font-mono select-none transition-all ${
-            theme === 'cosmic'
-              ? 'bg-zinc-950/60 border-amber-500/20 text-zinc-300'
-              : 'bg-zinc-100/60 border-zinc-300 text-zinc-800'
-          }`} id="engine-status-hud" title="Current Prompt AI Generating Engine Pool Status">
-            <span className={`w-2 h-2 rounded-full ${
-              engineStatus === 'Gemini Online' 
-                ? 'bg-emerald-500 animate-pulse' 
-                : 'bg-amber-500'
-            }`} />
-            <span className={`font-bold uppercase tracking-wider ${
-              engineStatus === 'Gemini Online' 
-                ? 'text-emerald-500' 
-                : 'text-amber-600'
-            }`}>
-              {engineStatus === 'Gemini Online' ? 'Gemini Online' : 'Local Studio Active'}
-            </span>
-          </div>
-
           {/* Theme Switcher Button */}
           <button
             onClick={toggleTheme}
-            className={`p-2 rounded-full border transition-all cursor-pointer focus:outline-none flex items-center justify-center active:scale-95 ${
+            className={`p-1.5 sm:p-2 rounded-full border transition-all cursor-pointer focus:outline-none flex items-center justify-center active:scale-95 ${
               theme === 'cosmic'
                 ? 'bg-zinc-900/60 border-zinc-800 text-amber-400 hover:bg-zinc-800/10 hover:border-amber-500/30'
                 : 'bg-white border-zinc-200 text-zinc-800 hover:bg-zinc-50 shadow-sm'
@@ -491,23 +557,24 @@ export default function App() {
           {/* Dynamic Interactive Translate Button */}
           <button
             onClick={toggleLanguage}
-            className={`px-4 py-2 rounded-full text-xs flex items-center gap-2 cursor-pointer transition-colors font-mono uppercase tracking-widest active:scale-95 focus:outline-none ${
+            className={`px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-[10px] sm:text-xs flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-colors font-mono uppercase tracking-widest active:scale-95 focus:outline-none ${
               theme === 'cosmic'
                 ? 'bg-white/5 border border-white/10 hover:bg-white/10 text-white'
                 : 'bg-white border border-zinc-300 hover:bg-zinc-50 text-zinc-800 shadow-xs'
             }`}
             id="translate-toggle"
           >
-            <span className="opacity-70">🌐 Translate:</span>
+            <span className="opacity-70 hidden sm:inline">🌐 Translate:</span>
+            <span className="opacity-70 inline sm:hidden">🌐</span>
             <span className={`font-bold ${theme === 'cosmic' ? 'text-amber-500' : 'text-zinc-900'}`}>
-              {lang === 'id' ? 'ID' : 'EN'} <span className="text-[9px] opacity-40 font-normal">(Powered by Google)</span>
+              {lang === 'id' ? 'ID' : 'EN'}<span className="text-[9px] opacity-40 font-normal hidden sm:inline"> (Powered by Google)</span>
             </span>
           </button>
 
           {currentUser && (
             <button
               onClick={handleLogout}
-              className="p-2 rounded-full bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-black border border-red-500/20 transition-all cursor-pointer focus:outline-none"
+              className="p-1.5 sm:p-2 rounded-full bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-black border border-red-500/20 transition-all cursor-pointer focus:outline-none"
               title={t.logoutButton}
             >
               <LogOut className="w-4 h-4" />
@@ -521,7 +588,7 @@ export default function App() {
         
         {/* Welcome State (FASE 0 Landing Page) */}
         {appState === 'welcome' && (
-          <LandingPage lang={lang} onGetStarted={() => setAppState('auth')} />
+          <LandingPage lang={lang} theme={theme} onGetStarted={() => setAppState('auth')} />
         )}
 
         {/* Auth State (FASE 1 Cybersecurity Gateway Panel) */}
@@ -1278,7 +1345,7 @@ export default function App() {
                           <td className={`p-3 font-bold ${theme === 'cosmic' ? 'text-white' : 'text-zinc-950'}`}>LM Arena</td>
                           <td className="p-3">{lang === 'id' ? 'Uji Coba Multi-Model secara bersamaan' : 'Run comparison testing of various LLMs'}</td>
                           <td className="p-3">
-                            <a href="https://chat.lmsys.org" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline font-mono">
+                            <a href="https://arena.ai" target="_blank" rel="noopener noreferrer" className="text-orange-500 hover:underline font-mono" id="lm-arena-link">
                               arena.ai
                             </a>
                           </td>
