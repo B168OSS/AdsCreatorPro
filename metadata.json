@@ -1,0 +1,6 @@
+{
+  "name": "AdsCreator Pro - Affiliate",
+  "description": "Platform generator prompt iklan sinematik kelas dunia dengan integrasi affiliate marketplace.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
