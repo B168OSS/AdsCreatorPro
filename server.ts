@@ -190,13 +190,7 @@ app.post("/api/login", (req, res) => {
     return res.status(401).json({ error: "Username atau Password salah!" });
   }
 
-  // IP Validation
-  if (user.simulatedIp !== simulatedIp) {
-    return res.status(403).json({
-      error: `🚫 LOGIN DITOLAK: IP Address '${simulatedIp}' tidak dikenali. Akses hanya diijinkan dari IP terdaftar '${user.simulatedIp}'.`,
-    });
-  }
-
+  // IP Validation removed as requested by user
   res.json({
     success: true,
     user: {
