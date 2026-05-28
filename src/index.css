@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cosmic-base: #030307;
+  --color-cosmic-accent: #D4AF37;
+  --color-cosmic-accent-dark: #AA7C11;
+  --color-light-base: #F8F9FA;
+  --color-light-accent: #1E1E24;
+}
+
+/* Cosmic Elegance glass-morphism */
+.cosmic-glass {
+  background: rgba(8, 8, 16, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+}
+
+.cosmic-glass-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cosmic-glass-hover:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 12px 40px 0 rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+}
+
+/* High-contrast Minimalist Light glass-morphism */
+.light-glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(30, 30, 36, 0.08);
+  box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.03);
+}
+
+.light-glass-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.light-glass-hover:hover {
+  border-color: rgba(30, 30, 36, 0.2);
+  box-shadow: 0 8px 30px 0 rgba(30, 30, 36, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Custom Orbs */
+.orb-gold {
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, rgba(212, 175, 55, 0) 70%);
+}
+
+.orb-violet {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0) 70%);
+}
+
+.orb-light-amber {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, rgba(245, 158, 11, 0) 65%);
+}
+
+.orb-light-blue {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0) 65%);
+}
+
+/* Animated backgrounds */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 1.5s infinite ease-in-out;
+}

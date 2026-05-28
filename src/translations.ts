@@ -1,0 +1,50 @@
+import { TranslationDictionary } from './types';
+
+export const translations: Record<'id' | 'en', TranslationDictionary> = {
+  id: {
+    landingHeader: 'Ubah Foto Produk Biasa Menjadi Iklan Sinematik Kelas Dunia dalam Hitungan Detik!',
+    landingSub: 'Maksimalkan komisi affiliate Shopee, Tokopedia, & TikTok Shop dengan skrip visual berkualitas studio yang langsung memicu pembelian.',
+    ctaButton: '🚀 MULAI BUAT IKLAN SEKARANG - GRATIS!',
+    faqTitle: 'Pertanyaan yang Sering Diajukan (FAQ)',
+    faqBenefitsQ: 'Apa manfaat menggunakan AdsCreator Pro?',
+    faqBenefitsA: 'Membantu Anda memproduksi ide promosi visual (prompt gambar dan video) secara bersambung dan terstruktur serta menyesuaikan skrip tontonan berdurasi short (5-10 detik) lengkap dengan ID Affiliate.',
+    faqHowToQ: 'Bagaimana cara penggunaannya?',
+    faqHowToA: 'Cukup unggah foto produk Anda atau masukkan link marketplace, pilih gaya visual & audio, lalu tekan tombol Generate. AI akan menyusun skenario sinematik promosi Anda.',
+    faqPrivacyQ: 'Bagaimana dengan kebijakan privasi data saya?',
+    faqPrivacyA: 'Sangat aman. Kami tidak menyebarkan atau menyalahgunakan foto produk, foto model, atau ID Affiliate Anda ke publik.',
+    register: 'Registrasi (Daftar)',
+    login: 'Masuk (Login)',
+    guestMode: 'Masuk sebagai Tamu (Guest)',
+    username: 'Nama Pengguna (Username)',
+    email: 'Alamat Email (Gmail)',
+    password: 'Kata Sandi (Password)',
+    repeatPassword: 'Ulangi Kata Sandi',
+    logoutButton: 'Keluar Akun',
+    guestLimitationMsg: '🔒 Modul upload model hanya untuk pengguna terdaftar.',
+    requiredCheckboxMsg: 'Saya menyetujui foto ini milik saya/sah dan bukan tokoh terkenal.',
+    generateButton: '🚀 Generate Prompt Sinematik'
+  },
+  en: {
+    landingHeader: 'Transform Ordinary Product Photos Into World-Class Cinematic Ads in Seconds!',
+    landingSub: 'Skyrocket your Shopee, Tokopedia, & TikTok Shop affiliate commissions with studio-quality scripts that drive immediate sales.',
+    ctaButton: '🚀 START CREATING ADS NOW - FREE!',
+    faqTitle: 'Frequently Asked Questions (FAQ)',
+    faqBenefitsQ: 'What are the benefits of AdsCreator Pro?',
+    faqBenefitsA: 'It helps you produce structured visual promo concepts (image & video prompts) continuously, custom tailored to short (5-10s) clips embedded with your Affiliate ID.',
+    faqHowToQ: 'How do I use it?',
+    faqHowToA: 'Simply upload your product photos or insert marketplace links, select your preferred visual and VO styles, then click Generate. The AI will weave a cinematic story plot.',
+    faqPrivacyQ: 'What about my data privacy?',
+    faqPrivacyA: 'Completely secure. We do not distribute or misuse your uploaded product images, model photos, or Affiliate IDs.',
+    register: 'Register (Sign Up)',
+    login: 'Login (Sign In)',
+    guestMode: 'Continue as Guest (No Password)',
+    username: 'Username',
+    email: 'Email Address (Gmail)',
+    password: 'Password',
+    repeatPassword: 'Confirm Password',
+    logoutButton: 'Log Out',
+    guestLimitationMsg: '🔒 Model upload is restricted to registered members only.',
+    requiredCheckboxMsg: 'I confirm this model photo belongs to me/is legitimate and not a public figure.',
+    generateButton: '🚀 Generate Cinematic Prompts'
+  }
+};
